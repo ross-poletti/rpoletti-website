@@ -1,0 +1,17 @@
+{
+  "name": "rpoletti-website",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm:dev -w server\" \"npm:dev -w client\"",
+    "build": "npm run build -w client",
+    "test": "npm run test -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
