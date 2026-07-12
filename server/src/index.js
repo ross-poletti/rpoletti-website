@@ -4,6 +4,7 @@ import helmet from "helmet";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { sendContactMessage, validateContact } from "./contact.js";
+import { sendServiceRequest, validateServiceRequest } from "./serviceRequest.js";
 
 const app = express();
 const port = Number(process.env.PORT || 4000);
@@ -33,6 +34,24 @@ app.post("/api/contact", async (req, res) => {
     console.error("Contact message failed:", error);
     res.status(500).json({
       message: "The message could not be sent right now. Please try again later."
+    });
+  }
+});
+
+app.post("/api/service-request", async (req, res) => {
+  const { request, message: validationError } = validateServiceRequest(req.body);
+
+  if (validationError) {
+    return res.status(400).json({ message: validationError });
+  }
+
+  try {
+    await sendServiceRequest(request);
+    res.json({ message: "Service request sent successfully." });
+  } catch (error) {
+    console.error("Service request failed:", error);
+    res.status(500).json({
+      message: "The request could not be sent right now. Please try again later."
     });
   }
 });

@@ -1,15 +1,15 @@
 # rpoletti-website
 
-Ross Poletti's personal website — a single-page React site with an Express backend
-for a spam-guarded contact form.
+Ross Poletti's personal website — a multi-page React site (client-side routed) with
+an Express backend for spam-guarded contact and service-request forms.
 
 ## Tech Stack
 
 | Layer | Stack |
 | --- | --- |
-| Frontend | React 19 + Vite 7 |
+| Frontend | React 19 + Vite 7 + React Router 7 |
 | Backend | Node.js + Express |
-| Contact delivery | Nodemailer (SMTP) |
+| Contact / service-request delivery | Nodemailer (SMTP) |
 | Packaging | Docker (multi-stage build), npm workspaces |
 | CI/CD | GitHub Actions, building/pushing to GHCR |
 
@@ -18,21 +18,32 @@ for a spam-guarded contact form.
 ```
 ├── client/           React frontend (Vite)
 │   └── src/
-│       └── components/   Nav, Hero, About, Projects, Homelab, Contact, Footer
-├── server/           Express API + contact form handling
+│       ├── components/   Nav, Footer (shared chrome)
+│       ├── pages/         Home, About, Experience, Certifications, Projects,
+│       │                  Services, Blog, BlogPost, Contact — one per route
+│       └── data/          posts.js (blog post content)
+├── server/           Express API + contact/service-request handling
 │   └── src/
 ├── Dockerfile         Multi-stage build: install → build client → run server
 └── .github/workflows  GitHub Actions build/publish pipeline
 ```
 
+Routing is client-side (React Router), with the Express server serving the built
+SPA and falling back to `index.html` for any non-API path, so direct loads/refreshes
+on any route work correctly.
+
 ## Content To Personalize
 
 A few spots are intentionally left as placeholders — search for `EDIT ME` in
-`client/src/components/`:
+`client/src/pages/`:
 
-- `Hero.jsx` / `About.jsx` — bio copy.
+- `Home.jsx` — hero body copy, sidebar bio, and swapping the initials avatar for a
+  real photo.
+- `About.jsx` — bio copy.
 - `Projects.jsx` — add a `repoUrl` to any project to show a "View source" link.
-- `Homelab.jsx` — add hardware/setup detail if you want it.
+- `Services.jsx` — service-area description.
+- `Certifications.jsx` — add a date/verify link to any entry if you want one shown.
+- `data/posts.js` — replace the seed post with real ones.
 
 ## Environment Variables
 
@@ -47,7 +58,9 @@ Copy `.env.example` to `.env` and fill in your values.
 | `MAIL_USER` | SMTP auth username. |
 | `MAIL_PASS` | SMTP auth password (an app password works well for Gmail/Workspace). |
 | `CONTACT_TO_EMAIL` | Inbox that receives contact form submissions. |
-| `CONTACT_FROM_EMAIL` | From address on outgoing mail. Defaults to `MAIL_USER`. |
+| `CONTACT_FROM_EMAIL` | From address on outgoing contact mail. Defaults to `MAIL_USER`. |
+| `SERVICE_REQUEST_TO_EMAIL` | Inbox that receives service-request submissions. Defaults to `CONTACT_TO_EMAIL`. |
+| `SERVICE_REQUEST_FROM_EMAIL` | From address on outgoing service-request mail. Defaults to `MAIL_USER`. |
 
 ## Getting Started
 
@@ -90,6 +103,7 @@ npm test
 | --- | --- |
 | `GET /api/health` | Liveness check, returns `{ ok: true }`. |
 | `POST /api/contact` | Validates and emails a contact form submission (`name`, `email`, `message`). |
+| `POST /api/service-request` | Validates and emails a service request (`name`, `email`, `phone`, `serviceType`, `message`). |
 
 ## CI/CD
 

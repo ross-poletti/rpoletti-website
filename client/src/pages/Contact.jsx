@@ -37,7 +37,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="section">
+    <section className="page">
       <h2>Contact</h2>
       <form className="panel contact-form" onSubmit={handleSubmit}>
         <input
@@ -88,7 +88,7 @@ export default function Contact() {
         </button>
 
         {status === "success" ? (
-          <div className="status-card">Thanks — your message is on its way.</div>
+          <div className="status-card">Thank you — your message has been sent.</div>
         ) : null}
         {status === "error" ? <div className="status-card error">{errorText}</div> : null}
       </form>
