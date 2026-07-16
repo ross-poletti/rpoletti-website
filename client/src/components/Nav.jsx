@@ -1,21 +1,29 @@
+import { Link, NavLink } from "react-router-dom";
+
 const links = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#homelab", label: "Homelab" },
-  { href: "#contact", label: "Contact" }
+  { to: "/about", label: "About" },
+  { to: "/experience", label: "Experience" },
+  { to: "/certifications", label: "Certifications" },
+  { to: "/projects", label: "Projects" },
+  { to: "/hands-on", label: "Hands-On" },
+  { to: "/services", label: "Services" },
+  { to: "/blog", label: "Blog" },
+  { to: "/contact", label: "Contact" }
 ];
 
 export default function Nav() {
   return (
     <header className="site-nav">
-      <a href="#home" className="brand">
+      <Link to="/" className="brand">
         ross@poletti:~$<span className="cursor" aria-hidden="true" />
-      </a>
+      </Link>
       <nav>
         <ul className="nav-links">
           {links.map((link) => (
-            <li key={link.href}>
-              <a href={link.href}>{link.label}</a>
+            <li key={link.to}>
+              <NavLink to={link.to} className={({ isActive }) => (isActive ? "active" : undefined)}>
+                {link.label}
+              </NavLink>
             </li>
           ))}
         </ul>
