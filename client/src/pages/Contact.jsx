@@ -39,6 +39,12 @@ export default function Contact() {
   return (
     <section className="page">
       <h2>Contact</h2>
+      <p className="page-intro">
+        Have a project in mind, a question about my homelab, or just want to talk
+        tech? I'm always happy to hear from other students, IT folks, and anyone
+        curious about self-hosting. Send a message below and I'll get back to you
+        as soon as I can.
+      </p>
       <form className="panel contact-form" onSubmit={handleSubmit}>
         <input
           type="text"

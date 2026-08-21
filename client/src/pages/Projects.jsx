@@ -28,6 +28,7 @@ const services = [
   { label: "Routing & Firewall", value: "pfSense, virtualized on Proxmox" },
   { label: "Network Monitoring", value: "LibreNMS, virtualized on Proxmox" },
   { label: "Game Server", value: "Minecraft server, virtualized on Proxmox" },
+  { label: "Photo & Video Backup", value: "Immich, self-hosted on the K3s cluster" },
   { label: "Git & CI", value: "Self-hosted Gitea, mirrored to GitHub Actions" },
   { label: "Registry", value: "Images built and pushed to GHCR on every merge" },
   { label: "Rollout", value: "Keel polls the registry and redeploys automatically" },

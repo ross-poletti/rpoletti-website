@@ -131,7 +131,7 @@ main {
   margin: 40px 0 16px;
 }
 
-.subsection-heading:first-of-type {
+.page > .subsection-heading:first-child {
   margin-top: 0;
 }
 
